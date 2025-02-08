@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const JWT = require('jsonwebtoken')
+const bcrypt = require('bcryptjs');
 
 const register = async (req, res) => {
 
@@ -25,11 +26,9 @@ const login = async (req, res) => {
 
     try {
 
-        const user = await User.findOne( ( username ) )
-
-        if ( user || !(await bcrypt.compare(password, user.password)) ) {
-            return res.status(400)
-                .json( { error: 'Credenciais inválidas' } )
+        const user = await User.findOne({ username });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(400).json({ error: 'Credenciais inválidas' });
         }
 
         const token = JWT.sign( { userId: user._id}, 
