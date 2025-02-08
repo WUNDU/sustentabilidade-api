@@ -15,6 +15,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const actionSubmitButton = document.getElementById('actionSubmitButton');
   let isSignUp = false;
 
+  // Verifica se o usuário já está autenticado ao carregar a página
+  const token = localStorage.getItem('token');
+  if (token) {
+    // Se houver um token, redireciona para a tela de gerenciamento
+    loginScreen.classList.add('hidden');
+    managementScreen.classList.remove('hidden');
+    loadActions();
+  } else {
+    // Caso contrário, mostra a tela de login
+    loginScreen.classList.remove('hidden');
+    managementScreen.classList.add('hidden');
+  }
+
   // Alternar entre Sign In e Sign Up
   toggleButton.addEventListener('click', function () {
     isSignUp = !isSignUp;
@@ -81,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h3 class="font-semibold text-green-700">${action.title}</h3>
                     <p class="text-sm text-gray-600">${action.description}</p>
                     <p class="text-sm text-gray-500">Categoria: ${action.category} | Pontos: ${action.points}</p>
-                    <button onclick="editAction('${action.id}')" class="text-blue-600 hover:underline">Editar</button>
-                    <button onclick="deleteAction('${action.id}')" class="text-red-600 hover:underline ml-2">Excluir</button>
+                    <button onclick="editAction('${action._id}')" class="text-blue-600 hover:underline">Editar</button>
+                    <button onclick="deleteAction('${action._id}')" class="text-red-600 hover:underline ml-2">Excluir</button>
                 `;
         actionsList.appendChild(li);
         totalScore += action.points;
@@ -99,15 +112,15 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     const action = {
-      id: document.getElementById('actionId').value,
+      _id: document.getElementById('actionId').value,
       title: document.getElementById('title').value,
       description: document.getElementById('description').value,
       category: document.getElementById('category').value,
       points: parseInt(document.getElementById('points').value)
     };
 
-    const method = action.id ? 'PUT' : 'POST';
-    const endpoint = action.id ? `/actions/${action.id}` : '/actions';
+    const method = action._id ? 'PUT' : 'POST';
+    const endpoint = action._id ? `/actions/${action.id}` : '/actions';
 
     try {
       const response = await fetch(`${apiUrl}${endpoint}`, {
@@ -142,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then(response => response.json())
       .then(action => {
-        document.getElementById('actionId').value = action.id;
+        document.getElementById('actionId').value = action._id;
         document.getElementById('title').value = action.title;
         document.getElementById('description').value = action.description;
         document.getElementById('category').value = action.category;
