@@ -54,17 +54,21 @@ const deleteAction = async (req, res) => {
     const action = await Action.findById(req.params.id);
     if (!action) return res.status(404).json({ msg: 'Action not found' });
 
+    console.log("Action userId:", action.userId);
+    console.log("Request userId:", req.userId);
+
     if (action.userId.toString() !== req.userId) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    await Action.findByIdAndRemove(req.params.id);
+    await Action.findByIdAndDelete(req.params.id);
 
     await User.findByIdAndUpdate(req.userId, { $inc: { points: -action.points } });
 
     res.json({ msg: 'Action removed' });
   } catch (err) {
-    res.status(400).send('Server error');
+    console.error(err); 
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 }
 

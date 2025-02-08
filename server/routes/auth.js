@@ -93,6 +93,34 @@ router.post('/login', login)
  */
 router.get('/users', authMiddleware, listUsers);
 
+
+/**
+ * @swagger
+ * /api/auth/signout:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Sign out user
+ *     description: Logs out the authenticated user by instructing the client to remove the token or invalidating it if necessary.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Bearer token for authentication
+ *     responses:
+ *       200:
+ *         description: Sign-out successful, token invalidated
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Signed out successfully, please remove your token."
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ *       500:
+ *         description: Server error during sign-out
+ */
 router.post('/signout', authMiddleware, signOut);
 
 module.exports = router;
