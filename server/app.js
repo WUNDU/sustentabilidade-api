@@ -13,6 +13,9 @@ const app = express()
 swaggerConfig(app);
 app.use(cors())
 app.use(express.json())
+
+swaggerConfig(app)
+
 app.use('/api/auth', authRoutes);
 app.use('/api/actions', actionRoutes);
 
@@ -20,16 +23,16 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado ao MongoDB'))
   .catch(err => console.error('Erro ao conectar ao MongoDB:', err))
 
-const uri = process.env.MONGODB_URI;
+// const uri = process.env.MONGODB_URI;
 
-async function run() {
-  if (!uri) {
-    throw new Error('A URI do MongoDB não foi definida. Verifique o arquivo .env.');
-  }
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  console.log('Conectado ao MongoDB');
-}
-run().catch(err => console.error(err));
+// async function run() {
+//   if (!uri) {
+//     throw new Error('A URI do MongoDB não foi definida. Verifique o arquivo .env.');
+//   }
+//   await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//   console.log('Conectado ao MongoDB');
+// }
+// run().catch(err => console.error(err));
 
 app.get('/', (req, res) => {
   res.send('API de Sustentabilidade Online!');
