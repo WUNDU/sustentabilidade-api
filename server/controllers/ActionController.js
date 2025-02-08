@@ -50,7 +50,7 @@ const deleteAction = async (req, res) => {
     if (!action) return res.status(404).json({ msg: 'Action not found' });
 
    
-    if (action.userId.toString() !== req.user.id) {
+    if (action.userId.toString() !== req.userId) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
