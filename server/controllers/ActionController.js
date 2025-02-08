@@ -23,7 +23,7 @@ const updateAction = async (req, res) => {
     if (!action) return res.status(404).json({ msg: 'Action not found' });
 
   
-    if (action.userId.toString() !== req.user.id) {
+    if (action.userId.toString() !== req.userId) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
@@ -33,8 +33,13 @@ const updateAction = async (req, res) => {
       { new: true }
     );
 
+    if (!action) {
+      return res.status(404).json({ msg: 'Action not found after update' });
+    }
+
     res.json(action);
   } catch (err) {
+    console.error(err);
     res.status(400).send('Server error');
   }
 };
