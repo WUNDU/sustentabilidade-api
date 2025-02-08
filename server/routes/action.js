@@ -6,9 +6,16 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.post('/actions', createAction);
-router.get('/actions', getActions);
-router.delete('/actions',deleteAction);
-router.put('/actions',updateAction)
+// Rota para criar uma nova ação
+router.post('/', authMiddleware, createAction);
+
+// Rota para obter todas as ações do usuário
+router.get('/', authMiddleware, getActions);
+
+// Rota para atualizar uma ação existente
+router.put('/:id', authMiddleware, updateAction);
+
+// Rota para deletar uma ação
+router.delete('/:id', authMiddleware, deleteAction);
 
 module.exports = router;
