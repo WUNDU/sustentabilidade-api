@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const apiUrl = 'http://localhost:3000/api'; // Substitua pelo URL da sua API
+  // Atualize a URL da API para o deploy no Render
+  const apiUrl = 'https://sustentabilidade-api-e1x6.onrender.com/api'; // URL da API no Render
+
   const loginScreen = document.getElementById('loginScreen');
   const managementScreen = document.getElementById('managementScreen');
   const authForm = document.getElementById('authForm');
@@ -81,10 +83,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Salva o token JWT
-        loginScreen.classList.add('hidden');
-        managementScreen.classList.remove('hidden');
-        loadActions();
+
+        if (isSignUp) {
+          // Após o registro bem-sucedido, redireciona para a tela de login
+          showError('Registro bem-sucedido! Faça login para continuar.');
+          isSignUp = false; // Volta para o modo de login
+          formTitle.textContent = 'Sign In';
+          submitButton.textContent = 'Sign In';
+          toggleText.textContent = 'Não tem uma conta? ';
+          toggleButton.textContent = 'Sign Up';
+          nameField.classList.add('hidden');
+        } else {
+          // Após o login bem-sucedido, salva o token e redireciona para a tela de gerenciamento
+          localStorage.setItem('token', data.token); // Salva o token JWT
+          loginScreen.classList.add('hidden');
+          managementScreen.classList.remove('hidden');
+          loadActions();
+        }
       } else {
         const errorData = await response.json();
         showError(errorData.message || 'Erro na autenticação. Tente novamente.');
