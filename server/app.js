@@ -16,7 +16,7 @@ app.use('/api', actionRoutes);
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URI)
     .then( () => console.log('Conectado ao MongoDB') )
     .catch( err => console.error('Erro ao conectar ao MongoDB:', err) )
 
