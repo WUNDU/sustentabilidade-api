@@ -4,14 +4,9 @@ const auth = require('../middleware/authMiddleware');
 const { createAction, getActions, deleteAction, updateAction } = require('../controllers/actionController');
 
 const router = express.Router();
-
-router.post('/', authMiddleware, createAction);
-
-router.get('/', authMiddleware, getActions);
-
-router.put('/:id', authMiddleware, updateAction);
-
-router.delete('/:id', authMiddleware, deleteAction);
-
+router.post('/', auth, createAction);
+router.get('/', auth, getActions);
+router.put('/:id', auth, updateAction);
+router.delete('/:id', auth, deleteAction);
 
 module.exports = router;
