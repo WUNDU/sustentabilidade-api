@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const scoreElement = document.getElementById('score');
   const formActionTitle = document.getElementById('formActionTitle');
   const actionSubmitButton = document.getElementById('actionSubmitButton');
+  const signOutButton = document.getElementById('signOutButton'); // Novo botão de Sign Out
   let isSignUp = false;
 
   // Verifica se o usuário já está autenticado ao carregar a página
@@ -184,4 +185,26 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Erro ao excluir ação:', error));
     }
   };
+
+  // Lógica para o botão de Sign Out
+  signOutButton.addEventListener('click', async function () {
+    try {
+      const response = await fetch(`${apiUrl}/auth/signout`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('token'); // Remove o token JWT
+        loginScreen.classList.remove('hidden');
+        managementScreen.classList.add('hidden');
+      } else {
+        console.error('Erro ao fazer logout');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  });
 });
