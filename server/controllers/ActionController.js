@@ -46,18 +46,21 @@ const updateAction = async (req, res) => {
 
 const deleteAction = async (req, res) => {
   try {
-    let action = await Action.findById(req.params.id);
+
+    if (!req.userId) {
+      return res.status(401).json({ msg: 'Not authorized: Missing user ID' });
+    }
+
+    const action = await Action.findById(req.params.id);
     if (!action) return res.status(404).json({ msg: 'Action not found' });
 
-   
     if (action.userId.toString() !== req.userId) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
     await Action.findByIdAndRemove(req.params.id);
 
-
-    await User.findByIdAndUpdate(req.user.id, { $inc: { points: -action.points } });
+    await User.findByIdAndUpdate(req.userId, { $inc: { points: -action.points } });
 
     res.json({ msg: 'Action removed' });
   } catch (err) {
