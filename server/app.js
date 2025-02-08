@@ -11,22 +11,34 @@ dotenv.config()
 const app = express()
 
 swaggerConfig(app);
+app.use(express.json())
 app.use('/api/auth', authRoutes);
 app.use('/api', actionRoutes);
 app.use(cors())
-app.use(express.json())
 
 mongoose.connect(process.env.MONGODB_URI)
     .then( () => console.log('Conectado ao MongoDB') )
     .catch( err => console.error('Erro ao conectar ao MongoDB:', err) )
 
+const uri = process.env.MONGODB_URI;
+
+async function run() {
+  if (!uri) {
+    throw new Error('A URI do MongoDB não foi definida. Verifique o arquivo .env.');
+  }
+  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  console.log('Conectado ao MongoDB');
+}
+run().catch(err => console.error(err));
 
 app.get('/', (req, res) => {
-    res.send('API de Sustentabilidade Online!');
-  });
-  
+  res.send('API de Sustentabilidade Online!');
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+console.log('MongoDB URI:', process.env.MONGODB_URI);
