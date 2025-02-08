@@ -22,11 +22,11 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
     try {
 
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email });
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(400).json({ error: 'Credenciais inválidas' });
         }
