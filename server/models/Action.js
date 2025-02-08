@@ -10,3 +10,4 @@ const actionSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Action', actionSchema);
+
