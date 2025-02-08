@@ -11,10 +11,10 @@ dotenv.config()
 const app = express()
 
 swaggerConfig(app);
+app.use(express.json())
 app.use('/api/auth', authRoutes);
 app.use('/api', actionRoutes);
 app.use(cors())
-app.use(express.json())
 
 
 const uri = process.env.MONGODB_URI;
@@ -29,13 +29,13 @@ async function run() {
 run().catch(err => console.error(err));
 
 app.get('/', (req, res) => {
-    res.send('API de Sustentabilidade Online!');
-  });
-  
+  res.send('API de Sustentabilidade Online!');
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
 
 console.log('MongoDB URI:', process.env.MONGODB_URI);
