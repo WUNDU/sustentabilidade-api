@@ -3,11 +3,11 @@ const JWT = require('jsonwebtoken')
 
 const register = async (req, res) => {
 
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
 
-        const user = new User( { email, password} )
+        const user = new User( {username, email, password} )
         await user.save()
 
         res.status(201).json( 
@@ -21,11 +21,11 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body
+    const { username, password } = req.body
 
     try {
 
-        const user = await User.findOne( ( email ) )
+        const user = await User.findOne( ( username ) )
 
         if ( user || !(await bcrypt.compare(password, user.password)) ) {
             return res.status(400)
