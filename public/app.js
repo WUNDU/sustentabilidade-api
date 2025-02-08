@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const method = action._id ? 'PUT' : 'POST';
-    const endpoint = action._id ? `/actions/${action.id}` : '/actions';
+    const endpoint = action._id ? `/actions/${action._id}` : '/actions';
 
     try {
       const response = await fetch(`${apiUrl}${endpoint}`, {
