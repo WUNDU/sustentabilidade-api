@@ -1,7 +1,3 @@
-Aqui está o README editado com as informações necessárias, incluindo os links do Netlify (frontend) e do backend (Render ou Railway), além de destacar o uso do Express e JavaScript:
-
----
-
 <p align="center">
   <a href="" rel="noopener">
     <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo">
