@@ -13,8 +13,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const scoreElement = document.getElementById('score');
   const formActionTitle = document.getElementById('formActionTitle');
   const actionSubmitButton = document.getElementById('actionSubmitButton');
-  const signOutButton = document.getElementById('signOutButton'); // Novo botão de Sign Out
+  const signOutButton = document.getElementById('signOutButton');
   let isSignUp = false;
+
+  // Função para exibir mensagens de erro
+  function showError(message) {
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorMessage.classList.remove('hidden');
+    setTimeout(() => {
+      errorMessage.classList.add('hidden');
+    }, 5000); // Esconde a mensagem após 5 segundos
+  }
+
+  // Função para esconder mensagens de erro
+  function hideError() {
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.classList.add('hidden');
+  }
 
   // Verifica se o usuário já está autenticado ao carregar a página
   const token = localStorage.getItem('token');
@@ -42,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Submissão do formulário de autenticação
   authForm.addEventListener('submit', async function (e) {
     e.preventDefault();
+    hideError(); // Esconde mensagens de erro anteriores
 
     const user = {
       email: document.getElementById('email').value,
@@ -69,10 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
         managementScreen.classList.remove('hidden');
         loadActions();
       } else {
-        console.error('Erro na autenticação');
+        const errorData = await response.json();
+        showError(errorData.message || 'Erro na autenticação. Tente novamente.');
       }
     } catch (error) {
-      console.error('Erro na autenticação:', error);
+      showError('Erro na conexão com o servidor. Tente novamente.');
     }
   });
 
@@ -84,6 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
+
+      if (!response.ok) {
+        throw new Error('Erro ao carregar ações.');
+      }
+
       const data = await response.json();
       actionsList.innerHTML = '';
       let totalScore = 0;
@@ -92,25 +115,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const li = document.createElement('li');
         li.className = 'p-4 bg-gray-50 rounded-lg';
         li.innerHTML = `
-                    <h3 class="font-semibold text-green-700">${action.title}</h3>
-                    <p class="text-sm text-gray-600">${action.description}</p>
-                    <p class="text-sm text-gray-500">Categoria: ${action.category} | Pontos: ${action.points}</p>
-                    <button onclick="editAction('${action._id}')" class="text-blue-600 hover:underline">Editar</button>
-                    <button onclick="deleteAction('${action._id}')" class="text-red-600 hover:underline ml-2">Excluir</button>
-                `;
+          <h3 class="font-semibold text-green-700">${action.title}</h3>
+          <p class="text-sm text-gray-600">${action.description}</p>
+          <p class="text-sm text-gray-500">Categoria: ${action.category} | Pontos: ${action.points}</p>
+          <button onclick="editAction('${action._id}')" class="text-blue-600 hover:underline">Editar</button>
+          <button onclick="deleteAction('${action._id}')" class="text-red-600 hover:underline ml-2">Excluir</button>
+        `;
         actionsList.appendChild(li);
         totalScore += action.points;
       });
 
       scoreElement.textContent = `${totalScore} pontos`;
     } catch (error) {
-      console.error('Erro ao carregar ações:', error);
+      showError('Erro ao carregar ações. Tente novamente.');
     }
   }
 
   // Adicionar/Editar ação
   actionForm.addEventListener('submit', async function (e) {
     e.preventDefault();
+    hideError(); // Esconde mensagens de erro anteriores
 
     const action = {
       _id: document.getElementById('actionId').value,
@@ -140,10 +164,11 @@ document.addEventListener('DOMContentLoaded', function () {
         formActionTitle.textContent = 'Adicionar Ação Sustentável';
         actionSubmitButton.textContent = 'Adicionar Ação';
       } else {
-        console.error('Erro ao salvar ação');
+        const errorData = await response.json();
+        showError(errorData.message || 'Erro ao salvar ação. Tente novamente.');
       }
     } catch (error) {
-      console.error('Erro ao salvar ação:', error);
+      showError('Erro na conexão com o servidor. Tente novamente.');
     }
   });
 
@@ -164,7 +189,9 @@ document.addEventListener('DOMContentLoaded', function () {
         formActionTitle.textContent = 'Editar Ação Sustentável';
         actionSubmitButton.textContent = 'Salvar Edição';
       })
-      .catch(error => console.error('Erro ao carregar ação:', error));
+      .catch(error => {
+        showError('Erro ao carregar ação. Tente novamente.');
+      });
   };
 
   window.deleteAction = function (id) {
@@ -179,10 +206,12 @@ document.addEventListener('DOMContentLoaded', function () {
           if (response.ok) {
             loadActions();
           } else {
-            console.error('Erro ao excluir ação');
+            showError('Erro ao excluir ação. Tente novamente.');
           }
         })
-        .catch(error => console.error('Erro ao excluir ação:', error));
+        .catch(error => {
+          showError('Erro ao excluir ação. Tente novamente.');
+        });
     }
   };
 
@@ -201,10 +230,11 @@ document.addEventListener('DOMContentLoaded', function () {
         loginScreen.classList.remove('hidden');
         managementScreen.classList.add('hidden');
       } else {
-        console.error('Erro ao fazer logout');
+        const errorData = await response.json();
+        showError(errorData.message || 'Erro ao fazer logout. Tente novamente.');
       }
     } catch (error) {
-      console.error('Erro ao fazer logout:', error);
+      showError('Erro na conexão com o servidor. Tente novamente.');
     }
   });
 });
