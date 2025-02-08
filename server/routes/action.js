@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const auth = require('../middleware/authMiddleware');
 const { createAction, getActions, deleteAction, updateAction } = require('../controllers/actionController');
 
