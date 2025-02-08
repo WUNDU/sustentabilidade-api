@@ -14,7 +14,7 @@ swaggerConfig(app);
 app.use(cors())
 app.use(express.json())
 app.use('/api/auth', authRoutes);
-app.use('/api', actionRoutes);
+app.use('/api/actions', actionRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado ao MongoDB'))
