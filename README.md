@@ -114,9 +114,3 @@ npm test
 - Agradecimentos às plataformas Netlify e Render por fornecerem hospedagem gratuita.
 
 ---
-
-### Links Atualizados
-
-- **Frontend no Netlify**: [https://ekotruckwundu.netlify.app/](https://ekotruckwundu.netlify.app/)
-- **Backend no Render**: [https://sustentabilidade-api-e1x6.onrender.com/](https://sustentabilidade-api-e1x6.onrender.com/)
-- **Documentação da API (Swagger)**: [https://sustentabilidade-api-e1x6.onrender.com/api-docs/](https://sustentabilidade-api-e1x6.onrender.com/api-docs/)
