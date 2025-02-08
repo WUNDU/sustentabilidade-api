@@ -1,6 +1,6 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
-const { createAction, getActions, deleteAction, updateAction } = require('../controllers/ActionController');
+const { createAction, getActions, deleteAction, updateAction, getActionById } = require('../controllers/ActionController');
 
 const router = express.Router();
 
@@ -62,6 +62,8 @@ router.post('/', authMiddleware, createAction);
  *                 $ref: '#/components/schemas/Action'
  */
 router.get('/', authMiddleware, getActions);
+
+router.get('/:id', authMiddleware, getActionById);
 
 /**
  * @swagger

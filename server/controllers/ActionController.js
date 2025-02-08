@@ -14,7 +14,7 @@ const createAction = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 const updateAction = async (req, res) => {
   const { title, description, category, points } = req.body;
@@ -42,28 +42,28 @@ const updateAction = async (req, res) => {
     console.error(err);
     res.status(400).send('Server error');
   }
-};
+}
 
 const deleteAction = async (req, res) => {
   try {
     let action = await Action.findById(req.params.id);
     if (!action) return res.status(404).json({ msg: 'Action not found' });
 
-    // Verificar se o usuário é o dono da ação
+   
     if (action.userId.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
     await Action.findByIdAndRemove(req.params.id);
 
-    // Atualizar pontos do usuário
+
     await User.findByIdAndUpdate(req.user.id, { $inc: { points: -action.points } });
 
     res.json({ msg: 'Action removed' });
   } catch (err) {
     res.status(400).send('Server error');
   }
-};
+}
 
 const getActions = async (req, res) => {
   try {
@@ -72,6 +72,22 @@ const getActions = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
-module.exports = { createAction, getActions, deleteAction, updateAction };
+const getActionById = async (req, res) => {
+
+  try {
+    const action = await Action.findById(req.params.id);
+    
+    if (!action) {
+      return res.status(404).json({ error: 'Action not found' });
+    }
+
+    res.json(action);
+  } catch (err) {
+    res.status(400).json({ error: 'Error fetching the Action' });
+  }
+}
+
+
+module.exports = { createAction, getActions, deleteAction, updateAction, getActionById };
