@@ -42,4 +42,13 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { register, login }
+const listUsers = async (req, res) => {
+    try {
+        const users = await User.find({}, '-password'); // Exclui o campo `password` na resposta
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao listar usuários' });
+    }
+}
+
+module.exports = { register, login, listUsers }

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     if (isSignUp) {
-      user.name = document.getElementById('name').value;
+      user.username = document.getElementById('name').value;
     }
 
     try {
