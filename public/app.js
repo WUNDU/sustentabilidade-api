@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const apiUrl = 'http://localhost:3000/api/'; // Substitua pelo URL da sua API
+  const apiUrl = 'http://localhost:3000/api'; // Substitua pelo URL da sua API
   const loginScreen = document.getElementById('loginScreen');
   const managementScreen = document.getElementById('managementScreen');
   const authForm = document.getElementById('authForm');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-      const endpoint = isSignUp ? 'auth/register' : 'auth/login';
+      const endpoint = isSignUp ? '/auth/register' : '/auth/login';
       const response = await fetch(`${apiUrl}${endpoint}`, {
         method: 'POST',
         headers: {
