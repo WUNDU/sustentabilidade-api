@@ -81,16 +81,16 @@ npm test
 ## 🎈 Uso <a name="usage"></a>
 
 - **Frontend**: Acesse o site hospedado no Netlify para interagir com a API.
-  - [Link do Frontend no Netlify](https://seu-link-netlify.com)
+  - [Link do Frontend no Netlify](https://ekotruckwundu.netlify.app/)
 
-- **Backend**: A API está disponível no Render (ou Railway) e pode ser acessada via Swagger.
-  - [Link do Backend no Render](https://seu-link-render.com)
-  - [Documentação da API com Swagger](https://seu-link-render.com/api-docs)
+- **Backend**: A API está disponível no Render e pode ser acessada via Swagger.
+  - [Link do Backend no Render](https://sustentabilidade-api-e1x6.onrender.com/)
+  - [Documentação da API com Swagger](https://sustentabilidade-api-e1x6.onrender.com/api-docs/)
 
 ## 🚀 Deploy <a name = "deployment"></a>
 
 - **Frontend**: Hospedado no Netlify. Para fazer o deploy, conecte seu repositório ao Netlify e configure o build.
-- **Backend**: Hospedado no Render (ou Railway). Siga as instruções da plataforma para fazer o deploy do servidor Express.
+- **Backend**: Hospedado no Render. Siga as instruções da plataforma para fazer o deploy do servidor Express.
 
 ## ⛏️ Tecnologias Utilizadas <a name = "built_using"></a>
 
@@ -115,3 +115,8 @@ npm test
 
 ---
 
+### Links Atualizados
+
+- **Frontend no Netlify**: [https://ekotruckwundu.netlify.app/](https://ekotruckwundu.netlify.app/)
+- **Backend no Render**: [https://sustentabilidade-api-e1x6.onrender.com/](https://sustentabilidade-api-e1x6.onrender.com/)
+- **Documentação da API (Swagger)**: [https://sustentabilidade-api-e1x6.onrender.com/api-docs/](https://sustentabilidade-api-e1x6.onrender.com/api-docs/)
