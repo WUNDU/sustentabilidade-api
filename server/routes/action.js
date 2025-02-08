@@ -1,6 +1,6 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
-const { createAction, getActions, deleteAction, updateAction } = require('../controllers/ActionController');
+const { createAction, getActions, deleteAction, updateAction, getActionById } = require('../controllers/ActionController');
 
 const router = express.Router();
 
@@ -62,6 +62,43 @@ router.post('/', authMiddleware, createAction);
  *                 $ref: '#/components/schemas/Action'
  */
 router.get('/', authMiddleware, getActions);
+
+/**
+ * @swagger
+ * /api/actions/{id}:
+ *   get:
+ *     tags:
+ *       - Actions
+ *     summary: "Get action by ID"
+ *     description: "Fetches a specific action by its ID."
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: "The ID of the action to retrieve"
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: "Bearer token for authentication"
+ *     responses:
+ *       200:
+ *         description: "Action successfully fetched"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Action"
+ *       401:
+ *         description: "Unauthorized - Missing or invalid token"
+ *       404:
+ *         description: "Action not found"
+ *       500:
+ *         description: "Server error"
+ */
+router.get('/:id', authMiddleware, getActionById);
 
 /**
  * @swagger
