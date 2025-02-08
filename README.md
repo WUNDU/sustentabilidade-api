@@ -52,12 +52,11 @@ Siga as instruções abaixo para configurar e executar o projeto localmente.
 1. Clone o repositório:
    ```bash
    git clone https://github.com/WUNDU/sustentabilidade-api.git
-   cd EcoTrack
+   cd sustentabilidade-api
    ```
 
 2. Instale as dependências do backend:
    ```bash
-   cd backend
    npm install
    ```
 
