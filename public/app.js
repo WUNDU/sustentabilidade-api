@@ -34,15 +34,28 @@ document.addEventListener('DOMContentLoaded', function () {
     errorMessage.classList.add('hidden');
   }
 
+  // Função para verificar se o token expirou
+  function isTokenExpired(token) {
+    if (!token) return true; // Se não houver token, considere como expirado
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica o payload do token
+      const expirationTime = payload.exp * 1000; // Converte para milissegundos
+      return Date.now() > expirationTime; // Verifica se o token expirou
+    } catch (error) {
+      return true; // Em caso de erro, considere como expirado
+    }
+  }
+
   // Verifica se o usuário já está autenticado ao carregar a página
   const token = localStorage.getItem('token');
-  if (token) {
-    // Se houver um token, redireciona para a tela de gerenciamento
+  if (token && !isTokenExpired(token)) {
+    // Se houver um token válido, redireciona para a tela de gerenciamento
     loginScreen.classList.add('hidden');
     managementScreen.classList.remove('hidden');
     loadActions();
   } else {
-    // Caso contrário, mostra a tela de login
+    // Caso contrário, remove o token expirado e mostra a tela de login
+    localStorage.removeItem('token');
     loginScreen.classList.remove('hidden');
     managementScreen.classList.add('hidden');
   }
@@ -119,6 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (!response.ok) {
+        if (response.status === 400) {
+          // Token expirado ou inválido
+          localStorage.removeItem('token');
+          loginScreen.classList.remove('hidden');
+          managementScreen.classList.add('hidden');
+          showError('Sessão expirada. Faça login novamente.');
+          return;
+        }
         throw new Error('Erro ao carregar ações.');
       }
 
@@ -179,6 +200,14 @@ document.addEventListener('DOMContentLoaded', function () {
         formActionTitle.textContent = 'Adicionar Ação Sustentável';
         actionSubmitButton.textContent = 'Adicionar Ação';
       } else {
+        if (response.status === 401) {
+          // Token expirado ou inválido
+          localStorage.removeItem('token');
+          loginScreen.classList.remove('hidden');
+          managementScreen.classList.add('hidden');
+          showError('Sessão expirada. Faça login novamente.');
+          return;
+        }
         const errorData = await response.json();
         showError(errorData.message || 'Erro ao salvar ação. Tente novamente.');
       }
