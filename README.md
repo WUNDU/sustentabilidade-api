@@ -71,12 +71,6 @@ Siga as instruções abaixo para configurar e executar o projeto localmente.
 
 5. Para o frontend, abra o arquivo `index.html` no navegador ou faça o deploy no Netlify.
 
-## 🔧 Executando os Testes <a name = "tests"></a>
-
-Para executar os testes automatizados, utilize o seguinte comando:
-```bash
-npm test
-```
 
 ## 🎈 Uso <a name="usage"></a>
 
